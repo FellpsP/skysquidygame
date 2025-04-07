@@ -32,7 +32,6 @@ selected_option = 0
 music_on = True
 menu_option_rects = []
 
-# Ajuste todas as plataformas para terem largura múltipla exata de 24
 PLATFORMS = [
     {'rect': Rect(0, HEIGHT-18, 792, 18), 'type': 'solid'},  
     {'rect': Rect(240, 400, 126, 18), 'type': 'platform'},   
@@ -333,14 +332,12 @@ def update():
         if player.hit_timer <= 0:
             game_over = True
     # Moedas
-    # Na seção de moedas do update():
     for coin in coins[:]:
         coin.update()
         if coin.colliderect(player):
             coins.remove(coin)
-            # Lógica de pontos e som DENTRO do if
             if music_on:
-                sounds.coin.play()  # Movido para dentro do bloco
+                sounds.coin.play()  
             
             if score >= 50:
                 score += 3
@@ -376,7 +373,6 @@ def reset_game():
     current_difficulty = 1
     player.hit_timer = 0.0  
     music.stop()
-    # Reinicie a música se estiver ativada
     if music_on:
         music.play(MUSIC_GAME)
     if not music_on:
@@ -455,18 +451,15 @@ def draw_menu():
         color=(255, 215, 0)
     )
     menu_option_rects = []
-    # Opções do menu com áreas clicáveis
     for i, option in enumerate(MENU_OPTIONS):
         color = (255, 0, 0) if i == selected_option else (255, 255, 255)
         text = "Sound: ON" if (i == 1 and music_on) else "Sound: OFF" if (i == 1) else option
-        
-        # Cálculo da área clicável (aproximado)
-        text_width = len(text) * 20  # Aproximação baseada no tamanho da fonte
+       
+        text_width = len(text) * 20  
         text_height = 40
         x = WIDTH//2 - text_width//2
         y = 250 + i*50 - text_height//2
-        
-        # Armazena o retângulo clicável
+       
         menu_option_rects.append(Rect(x, y, text_width, text_height))
         
         screen.draw.text(
@@ -502,7 +495,7 @@ def draw():
     
         player.draw()
         
-        if player.is_hit:  # Desenha sprite de hit sobreposto
+        if player.is_hit:  
             player.image = "tiles/character04"
             player.draw()
         
